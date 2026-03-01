@@ -1,0 +1,24 @@
+{
+    "required":  true,
+    "package":  "com.cake.azimuth.mixin",
+    "compatibilityLevel":  "JAVA_21",
+    "mixins":  [
+                   "CachedRenderBBBlockEntityMixin",
+                   "CreateAdvancementIdMixin",
+                   "ItemRequirementMixin",
+                   "RotationPropagatorMixin",
+                   "SafeBlockEntityRendererMixin",
+                   "SmartBlockEntityMixin",
+                   "StructureTransformMixin",
+                   "VisualizationHelperMixin"
+               ],
+    "injectors":  {
+                      "defaultRequire":  1
+                  },
+    "overwrites":  {
+                       "requireAnnotations":  true
+                   },
+    "client":  [
+                   "VisualizerRegistryMixin"
+               ]
+}
