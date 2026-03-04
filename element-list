@@ -1,0 +1,17 @@
+com.cake.azimuth
+com.cake.azimuth.advancement
+com.cake.azimuth.behaviour
+com.cake.azimuth.behaviour.extensions
+com.cake.azimuth.behaviour.render
+com.cake.azimuth.client.outlines
+com.cake.azimuth.foundation.config
+com.cake.azimuth.goggle.api
+com.cake.azimuth.goggle.builder
+com.cake.azimuth.goggle.command
+com.cake.azimuth.goggle.component
+com.cake.azimuth.goggle.datagen
+com.cake.azimuth.goggle.style
+com.cake.azimuth.mixin
+com.cake.azimuth.registration
+com.cake.azimuth.registration.goggle
+com.cake.azimuth.utility
