@@ -5,6 +5,8 @@ import com.cake.azimuth.registration.goggle.AzimuthGoggleStyles;
 import com.cake.azimuth.registration.goggle.CreateGoggleComponents;
 import com.cake.azimuth.registration.goggle.CreateGoggleStyles;
 import com.mojang.logging.LogUtils;
+import com.simibubi.create.Create;
+import com.simibubi.create.foundation.data.CreateRegistrate;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.ModContainer;
 import net.neoforged.fml.ModLoadingContext;
@@ -16,12 +18,18 @@ public class Azimuth {
     public static final String MODID = "azimuth";
     public static final Logger LOGGER = LogUtils.getLogger();
 
+    public static final CreateRegistrate REGISTRATE_FOR_DATA = CreateRegistrate.create(MODID);
+
     public Azimuth(final IEventBus modEventBus, final ModContainer modContainer) {
+        REGISTRATE_FOR_DATA.registerEventListeners(modEventBus);
+
         AzimuthConfigs.register(ModLoadingContext.get(), modContainer);
 
         CreateGoggleStyles.register();
         AzimuthGoggleStyles.register();
         CreateGoggleComponents.register();
+
+        AzimuthData.addRegistrateData();
     }
 
 }

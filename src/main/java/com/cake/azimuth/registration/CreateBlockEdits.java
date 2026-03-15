@@ -2,6 +2,10 @@ package com.cake.azimuth.registration;
 
 import com.simibubi.create.foundation.data.CreateRegistrate;
 import com.tterrag.registrate.builders.BlockBuilder;
+import com.tterrag.registrate.util.nullness.NonNullBiFunction;
+import net.minecraft.world.item.BlockItem;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.level.block.Block;
 import net.neoforged.fml.ModList;
 import net.neoforged.neoforgespi.language.ModFileScanData;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +26,7 @@ import java.util.function.Consumer;
 public class CreateBlockEdits {
 
     private static final Map<String, Consumer<BlockBuilder<?, CreateRegistrate>>> EDITS_BY_ID = new LinkedHashMap<>();
+    private static final Map<String, NonNullBiFunction<? extends Block, Item.Properties, ? extends BlockItem>> ITEM_OVERRIDES = new LinkedHashMap<>();
     private static RegistrationWindow registrationWindow = RegistrationWindow.NOT_STARTED;
 
     public static synchronized void bootstrapRegistrators() {
@@ -53,6 +58,24 @@ public class CreateBlockEdits {
             existing.accept(builder);
             additional.accept(builder);
         });
+    }
+
+    public static synchronized <T extends Block> void forBlockItem(final String id, final NonNullBiFunction<T, Item.Properties, ? extends BlockItem> itemFactory) {
+        if (registrationWindow != RegistrationWindow.OPEN) {
+            throw new IllegalStateException("CreateBlockEdits.forBlockItem(...) can only be called from a @CreateBlockEdits.Registrator method while Create's AllBlocks are bootstrapping; current registration window is " + registrationWindow + ".");
+        }
+
+        Objects.requireNonNull(id, "id");
+        Objects.requireNonNull(itemFactory, "itemFactory");
+        if (ITEM_OVERRIDES.containsKey(id)) {
+            throw new IllegalStateException("An item override for block '" + id + "' has already been registered.");
+        }
+        ITEM_OVERRIDES.put(id, itemFactory);
+    }
+
+    @SuppressWarnings("unchecked")
+    public static <T extends Block> NonNullBiFunction<T, Item.Properties, ? extends BlockItem> getItemOverride(final String id) {
+        return (NonNullBiFunction<T, Item.Properties, ? extends BlockItem>) ITEM_OVERRIDES.get(id);
     }
 
     public static Consumer<BlockBuilder<?, CreateRegistrate>> getEditForId(final String id) {
