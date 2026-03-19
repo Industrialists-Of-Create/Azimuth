@@ -25,6 +25,7 @@
   },
   "client": [
     "VisualizerRegistryMixin",
-    "ponder.PonderUIMixin"
+    "ponder.PonderUIMixin",
+    "ponder.PonderUILabelMixin"
   ]
 }
